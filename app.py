@@ -18,7 +18,7 @@ BOT_TOKEN = os.environ["BOT_TOKEN"]
 WEBHOOK_SECRET = os.environ["WEBHOOK_SECRET"]
 LOG_BUCKET = os.environ["LOG_BUCKET"]
 GEMINI_API_KEY = os.environ["GEMINI_API_KEY"]
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite")
 
 gemini_client = genai.Client(api_key=GEMINI_API_KEY)
 storage_client = storage.Client()
@@ -187,15 +187,18 @@ def call_gemini(full_prompt, events):
     """
 
     attempts = [
-        [
-            {"type": "google_search"},
-            {"type": "code_execution"},
-        ],
-        [
-            {"type": "google_search"},
-        ],
-        [],
-    ]
+    [
+        {"type": "google_search"},
+        {"type": "code_execution"},
+    ],
+    [
+        {"type": "code_execution"},
+    ],
+    [
+        {"type": "google_search"},
+    ],
+    [],
+]
 
     last_error = None
 
